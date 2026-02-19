@@ -1,5 +1,4 @@
 from django.contrib import admin
-# <HINT> Import any new Models here
 from .models import Course, Lesson, Instructor, Learner, Choice, Question, Submission
 
 # Inline classes
@@ -19,13 +18,14 @@ class ChoiceInline(admin.StackedInline):
 # Admin classes
 
 class CourseAdmin(admin.ModelAdmin):
-    inlines = [LessonInline, QuestionInline]
+    inlines = [LessonInline]
     list_display = ('name', 'pub_date')
     list_filter = ['pub_date']
     search_fields = ['name', 'description']
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['title']
+    inlines = [QuestionInline]
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ['question_text', 'question_point']
@@ -34,7 +34,7 @@ class QuestionAdmin(admin.ModelAdmin):
 class ChoiceAdmin(admin.ModelAdmin):
     list_display = ['choice_text', 'is_correct']
 
-# Models
+# Register models
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
